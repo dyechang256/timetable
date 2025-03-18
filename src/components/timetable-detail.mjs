@@ -5,7 +5,12 @@ export class TimetableDetailComponent extends HTMLElement {
   shadowRoot = undefined;
 
   static observedAttributes = ["day-period"];
-  /** @type {import("../types.mjs").ClassData} */
+
+  /** @type {import("../types.mjs").TableData} */
+  tableData = undefined;
+  /** @type {import("../types.mjs").ClassData[]} */
+  classDatas = [];
+
   get dayPeriod() {
     return this.getAttribute("dayperiod");
   }
@@ -57,7 +62,12 @@ export class TimetableDetailComponent extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.render();
+    if (this.dayperiod) {
+      this.tableData = await DB.get(TABLE_STORE_NAME);
+    }
+    this.classDatas = await DB.getAll(CLASS_STORE_NAME);
+
+    this.classList = this.render();
   }
 
   render() {

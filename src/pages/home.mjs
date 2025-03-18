@@ -23,7 +23,7 @@ export class HomePage extends HTMLElement {
     <style>${this.css()}</style>
     <div class="home">
       <timetable-component></timetable-component>
-      <timetable-detail></timetable-detail>
+      <timetable-detail dayperiod="${this.dayperiod ?? ""}"></timetable-detail>
     </div>
   `;
 
@@ -34,6 +34,11 @@ export class HomePage extends HTMLElement {
 
   connectedCallback() {
     this.render();
+
+    this.shadowRoot.addEventListener("tableItemClick", (event) => {
+      this.dayperiod = event.detail;
+      this.render();
+    });
   }
 
   render() {

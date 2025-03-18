@@ -98,6 +98,17 @@ export class ClassEditPage extends HTMLElement {
         name: className,
       };
       await DB.set(CLASS_STORE_NAME, data);
+
+      this.moveToList();
     });
+
+    const moveToListButton = this.shadowRoot.querySelector("button.move-list");
+    moveToListButton.addEventListener("click", this.moveToList);
+  }
+
+  moveToList() {
+    const url = new URL(location.href);
+    url.hash = "#class-list";
+    location.href = url.href;
   }
 }

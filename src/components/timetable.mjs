@@ -39,8 +39,8 @@ export class TimetableComponent extends HTMLElement {
                 </div>
               `
                 : /* html */ `
-                <div class="class-item">
-                  <span>${day}${period}</span>
+                <div class="class-item" dayperiod="${`${day}-${period}`}" >
+                  <span>${day}-${period}</span>
                 </div>
               `
             )
@@ -61,5 +61,17 @@ export class TimetableComponent extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = this.html();
+
+    this.shadowRoot.querySelectorAll("div.class-item").forEach((elem) => {
+      elem.addEventListener("click", () => {
+        this.dispatchEvent(
+          new CustomEvent("tableItemClick", {
+            bubbles: true,
+            composed: true,
+            detail: elem.getAttribute("dayperiod"),
+          })
+        );
+      });
+    });
   }
 }

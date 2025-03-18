@@ -1,6 +1,10 @@
+import { CLASS_STORE_NAME, DB } from "../shared/db.mjs";
 import { basicStyle } from "../shared/style.mjs";
 
 export class ClassListPage extends HTMLElement {
+  /** @type {import("../types.mjs").ClassData[]} */
+  classDatas = [];
+
   /** @type {ShadowRoot | undefined} */
   shadowRoot = undefined;
 
@@ -40,7 +44,13 @@ export class ClassListPage extends HTMLElement {
       & > .list {
         height: 100%;
         width: 100%;
-        overflow: scroll;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        
+        & > class-list-item {
+          margin-bottom: 8px;
+        }
       }
     }
   `;
@@ -53,8 +63,16 @@ export class ClassListPage extends HTMLElement {
         <span>科目一覧</span>
         <button class="add">➕</button>
       </div>
+
       <div class="list">
-      </div>
+      ${this.classDatas
+        .map(
+          (classData) => /* html */ `
+          <class-list-item class-data='${JSON.stringify(classData)}'></class-list-item>
+        `
+        )
+        .join("")}
+    </div>
     </div>
   `;
 
@@ -62,12 +80,30 @@ export class ClassListPage extends HTMLElement {
     super();
     this.shadowRoot = this.attachShadow({ mode: "open" });
   }
+  async connectedCallback() {
+    this.classDatas = await DB.getAll(CLASS_STORE_NAME);
 
-  connectedCallback() {
     this.render();
   }
 
   render() {
     this.shadowRoot.innerHTML = this.html();
+
+    const addClassButton = this.shadowRoot.querySelector("button.add");
+    addClassButton.addEventListener("click", this.moveToEdit);
+    const moveToHomeButton = this.shadowRoot.querySelector("button.move-home");
+    moveToHomeButton.addEventListener("click", this.moveToHome);
+  }
+
+  moveToEdit() {
+    const url = new URL(location.href);
+    url.hash = "#class-edit";
+    location.href = url.href;
+  }
+
+  moveToHome() {
+    const url = new URL(location.href);
+    url.hash = "#home";
+    location.href = url.href;
   }
 }

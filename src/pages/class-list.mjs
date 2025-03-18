@@ -31,6 +31,7 @@ export class ClassListPage extends HTMLElement {
           background-color: transparent;
           font-size: 24px;
           text-align: center;
+          text-shadow: 1px 1px 2px black;
         }
 
         & > span {

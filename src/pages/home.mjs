@@ -23,6 +23,7 @@ export class HomePage extends HTMLElement {
     <style>${this.css()}</style>
     <div class="home">
       <timetable-component></timetable-component>
+      <timetable-detail></timetable-detail>
     </div>
   `;
 

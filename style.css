@@ -1,0 +1,12 @@
+html,
+body {
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}

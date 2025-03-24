@@ -28,7 +28,7 @@ export class TimetableComponent extends HTMLElement {
       display: grid;
       grid-auto-flow: column;
       grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: 32px repeat(4, 1fr);
+      grid-template-rows: 32px repeat(5, 1fr); /**縦列を増やす */
       place-content: center;
 
       & > div {
@@ -45,7 +45,7 @@ export class TimetableComponent extends HTMLElement {
     <div class="timetable">
       ${["月", "火", "水", "木", "金"]
         .map((day) =>
-          [0, 1, 2, 3, 4]
+          [0, 1, 2, 3, 4, 5]
             .map((period) =>
               period === 0
                 ? /* html */ `

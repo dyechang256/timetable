@@ -34,6 +34,7 @@ export class ClassEditPage extends HTMLElement {
           font-size: 24px;
           text-align: center;
           text-shadow: 1px 1px 2px black;
+          margin-left: 10px;
         }
 
         & > span {
@@ -67,9 +68,11 @@ export class ClassEditPage extends HTMLElement {
   <div class="class-edit">
     <div class="header">
       <button class="move-list">⬅️</button>
+      
       <span>科目の編集</span>
+      <button class="delete">🗑️</button>
       <button class="save">💾</button>
-    </div>
+      </div>
     <div class="input-container">
       <span>科目名</span>
       <input type="text" id="class-name" value="${this.classData?.name ?? ""}"/>    </div>
@@ -85,6 +88,32 @@ export class ClassEditPage extends HTMLElement {
     this.classData = await DB.get(CLASS_STORE_NAME, this.classId);
 
     this.render();
+
+    const deleteButton = this.shadowRoot.querySelector(".delete");
+
+    deleteButton.addEventListener("click", async () => {
+      const className = /** @type {HTMLInputElement} */ (
+        this.shadowRoot.getElementById("class-name")
+      ).value;
+
+      if (!className) {
+        alert("削除する科目名を入力してください！");
+        return;
+      }
+
+      const isConfirmed = confirm(`「${className}」を削除しますか？`);
+      if (!isConfirmed) return;
+
+      try {
+        await DB.delete(CLASS_STORE_NAME, this.classId);
+        alert(`「${className}」を削除しました！`);
+        const url = new URL(location.href);
+        url.hash = "#class-list";
+        location.href = url.href;
+      } catch (error) {
+        alert("削除に失敗しました。");
+      }
+    });
   }
 
   render() {

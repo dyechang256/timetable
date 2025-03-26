@@ -36,7 +36,6 @@ export class TimetableDetailComponent extends HTMLElement {
       height: 100%;
       width: 100%;
       padding: 16px;
-      border-top: 2px solid green;
 
       > .empty {
         height: 100%;

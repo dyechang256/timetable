@@ -1,5 +1,5 @@
 import { basicStyle } from "../shared/style.mjs";
-import { TIME } from "../shared/classtime.mjs";
+import { time } from "../shared/classtime.mjs";
 
 export class HomePage extends HTMLElement {
   /** @type {ShadowRoot | undefined} */
@@ -52,7 +52,7 @@ export class HomePage extends HTMLElement {
       <div class="bottom">
         <div class="nextClock">
           <span>次は</span>
-          <span class="time">13:30</span>
+          <span class="time">${time()}</span>
         </div>
         <timetable-detail dayperiod="${this.dayperiod ?? ""}"></timetable-detail>
       </div>

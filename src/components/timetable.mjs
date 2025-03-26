@@ -8,6 +8,8 @@ export class TimetableComponent extends HTMLElement {
   classDatas = [];
   /** @type {import("../types.mjs").TableData[]} */
   tableDatas = [];
+  /** @type {render} */
+  numberofItem = 0;
 
   static observedAttributes = ["render-id"];
   get renderId() {
@@ -30,6 +32,10 @@ export class TimetableComponent extends HTMLElement {
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: 32px repeat(5, 1fr); /**縦列を増やす */
       place-content: center;
+
+      & > :nth-child(n + ${this.numberOfItem}):nth-child(-n + ${this.numberOfItem + 5}) {
+        background-color: green;
+      }
 
       & > div {
         width: 100%;
@@ -79,6 +85,11 @@ export class TimetableComponent extends HTMLElement {
   async connectedCallback() {
     this.classDatas = await DB.getAll(CLASS_STORE_NAME);
     this.tableDatas = await DB.getAll(TABLE_STORE_NAME);
+
+    const dayOfWeek = new Date().getDay() - 1;
+    //本来日曜が０だけど、月曜が０の方が解りやすいよね
+    this.numberOfItem = 6 * dayOfWeek + 1;
+
     this.render();
   }
 

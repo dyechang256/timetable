@@ -33,8 +33,13 @@ export class TimetableComponent extends HTMLElement {
       grid-template-rows: 32px repeat(5, 1fr); /**縦列を増やす */
       place-content: center;
 
-      & > :nth-child(n + ${this.numberOfItem}):nth-child(-n + ${this.numberOfItem + 5}) {
+      & > :nth-child(n + ${this.numberOfItem + 1}):nth-child(-n + ${this.numberOfItem + 5}) {
+        background-color: lightgreen;
+      }
+
+      & > :nth-child(${this.numberOfItem}) {
         background-color: green;
+        color: white;
       }
 
       & > div {
@@ -86,6 +91,7 @@ export class TimetableComponent extends HTMLElement {
     this.classDatas = await DB.getAll(CLASS_STORE_NAME);
     this.tableDatas = await DB.getAll(TABLE_STORE_NAME);
 
+    //日曜から初めて０～６
     const dayOfWeek = new Date().getDay() - 1;
     //本来日曜が０だけど、月曜が０の方が解りやすいよね
     this.numberOfItem = 6 * dayOfWeek + 1;

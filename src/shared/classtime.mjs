@@ -1,8 +1,3 @@
-export function moji() {
-  console.log("fire");
-  return 1;
-}
-
 export function time() {
   const TIME = [
     ["8:50", "10:20"],

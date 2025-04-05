@@ -123,7 +123,12 @@ export class ClassEditPage extends HTMLElement {
     saveButton.addEventListener("click", async () => {
       const className = /** @type {HTMLInputElement} */ (
         this.shadowRoot.getElementById("class-name")
-      ).value;
+      ).value.trim(); // 入力した中身の空白を削除
+
+      if (!className) {
+        alert("科目名を入力してください！");
+        return; // 空白の場合は処理を止める
+      }
 
       /** @type {import("../types.mjs").ClassData} */
       const data = {

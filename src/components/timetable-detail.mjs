@@ -97,7 +97,7 @@ export class TimetableDetailComponent extends HTMLElement {
               }>${classData.name}</option>
               `
             )}</select>`
-          : !this.tableData
+          : !this.tableData || !this.classData
           ? /* html */ `<span>空きコマ</span>`
           : /* html */ `<span>${this.classData.name}</span>`
       }</div>

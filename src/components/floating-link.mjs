@@ -19,7 +19,7 @@ export class FloatingLink extends HTMLElement {
     :host {
       width: fit-content;
       height: fit-content;
-      position: absolute;
+      position: fixed;
       bottom: 1em;
       right: 1em;
       z-index: 10;

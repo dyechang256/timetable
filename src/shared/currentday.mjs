@@ -1,4 +1,4 @@
 export function currentday() {
-  today = new Date();
-  const day1 = today.getDay();
+  const today = new Date();
+  return today.getDay();
 }

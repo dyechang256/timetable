@@ -33,7 +33,7 @@ export class HomePage extends HTMLElement {
           align-items: center;
 
           & > .time {
-            font-size: 32px;
+            font-size: 24px;
           }
         }
 
@@ -52,7 +52,7 @@ export class HomePage extends HTMLElement {
       <div class="bottom">
         <div class="nextClock">
           <span>次は</span>
-          <span class="time">${time()}</span>
+          <span class="time">読み込み中</span>
         </div>
         <timetable-detail dayperiod="${this.dayperiod ?? ""}"></timetable-detail>
       </div>
@@ -68,9 +68,12 @@ export class HomePage extends HTMLElement {
   connectedCallback() {
     this.render();
 
+    this.updateTime();
+
     this.shadowRoot.addEventListener("tableItemClick", (event) => {
       this.dayperiod = event.detail;
       this.render();
+      this.updateTime(); // 時間を再更新
     });
     this.shadowRoot.addEventListener("tableItemChange", () => {
       this.renderId = crypto.randomUUID();
@@ -78,7 +81,21 @@ export class HomePage extends HTMLElement {
     });
   }
 
+  async updateTime() {
+    try {
+      const nextTime = await time(); // time() の結果を待機
+      const timeElement = this.shadowRoot.querySelector(".time");
+      timeElement.textContent = nextTime; // 結果を設定
+    } catch (error) {
+      console.error("Error updating time:", error);
+      const timeElement = this.shadowRoot.querySelector(".time");
+      timeElement.textContent = "エラーが発生しました";
+    }
+  }
+
   render() {
+    const previousTime = this.shadowRoot?.querySelector(".time")?.textContent || "読み込み中";
     this.shadowRoot.innerHTML = this.html();
+    this.shadowRoot.querySelector(".time").textContent = previousTime; // 前回の値を保持
   }
 }

@@ -68,29 +68,33 @@ export class HomePage extends HTMLElement {
 
   connectedCallback() {
     this.render();
-
     this.updateTime();
 
-    this.shadowRoot.addEventListener("tableItemClick", (event) => {
-      this.dayperiod = event.detail;
-      this.render();
-      this.updateTime(); // 時間を再更新
-    });
-    this.shadowRoot.addEventListener("tableItemChange", async () => {
-      const timetableComponent = this.shadowRoot.querySelector("timetable-component");
+    this.shadowRoot.addEventListener("tableItemClick", this.handleTableItemClick.bind(this));
+    this.shadowRoot.addEventListener("tableItemChange", this.handleTableItemChange.bind(this));
+  }
+
+  handleTableItemClick(event) {
+    this.dayperiod = event.detail;
+    this.render();
+    this.updateTime();
+  }
+
+  async handleTableItemChange() {
+    const timetableComponent = this.shadowRoot.querySelector("timetable-component");
+    if (timetableComponent) {
       timetableComponent.classDatas = await DB.getAll(CLASS_STORE_NAME);
       timetableComponent.tableDatas = await DB.getAll(TABLE_STORE_NAME);
-      timetableComponent.render(); // 時間割を再描画
-
-      // 時間を再計算して更新
-      this.updateTime();
-    });
+      timetableComponent.render();
+    }
+    this.updateTime();
   }
 
   async updateTime() {
+    const timeElement = this.shadowRoot.querySelector(".time");
+    if (!timeElement) return; // 要素が存在しない場合は早期リターン
     try {
       const nextTime = await time(); // time() の結果を待機
-      const timeElement = this.shadowRoot.querySelector(".time");
       timeElement.textContent = nextTime; // 結果を設定
     } catch (error) {
       console.error("Error updating time:", error);

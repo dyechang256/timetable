@@ -25,14 +25,16 @@ export class FloatingLink extends HTMLElement {
       z-index: 10;
 
       & > button {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         border: none;
         border-radius: 100vh;
         background-color: lightblue;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        /*box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);*/
         cursor: pointer;
-        font-size: 2em;
+        display: flex;
+        justify-content: center;
+        align-items:center;
       }
 
       & dialog {
@@ -63,11 +65,11 @@ export class FloatingLink extends HTMLElement {
   `;
 
   html = /*html*/ `
-    <style>${this.css}</style>
-    <button id="setting-button" type="button">
-      <span class="setting-button-text">${this.emoji}</span>
-    </button>
-  `;
+  <style>${this.css}</style>
+  <button id="setting-button" type="button">
+    <img class="icon" src="${this.emoji}" alt="icon" />
+  </button>
+`;
 
   constructor() {
     super();

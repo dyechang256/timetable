@@ -164,6 +164,8 @@ export class TimetableDetailComponent extends HTMLElement {
       this.dispatchEvent(
         new CustomEvent("tableItemChange", { bubbles: true, composed: true, detail: null })
       );
+
+      // location.reload(); // ページ全体をリロード
     }
     this.isEditing = !this.isEditing;
     this.render();

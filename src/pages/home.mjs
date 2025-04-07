@@ -1,5 +1,6 @@
 import { basicStyle } from "../shared/style.mjs";
 import { time } from "../shared/classtime.mjs";
+import { CLASS_STORE_NAME, DB, TABLE_STORE_NAME } from "../shared/db.mjs";
 
 export class HomePage extends HTMLElement {
   /** @type {ShadowRoot | undefined} */
@@ -75,9 +76,14 @@ export class HomePage extends HTMLElement {
       this.render();
       this.updateTime(); // 時間を再更新
     });
-    this.shadowRoot.addEventListener("tableItemChange", () => {
-      this.renderId = crypto.randomUUID();
-      this.render();
+    this.shadowRoot.addEventListener("tableItemChange", async () => {
+      const timetableComponent = this.shadowRoot.querySelector("timetable-component");
+      timetableComponent.classDatas = await DB.getAll(CLASS_STORE_NAME);
+      timetableComponent.tableDatas = await DB.getAll(TABLE_STORE_NAME);
+      timetableComponent.render(); // 時間割を再描画
+
+      // 時間を再計算して更新
+      this.updateTime();
     });
   }
 

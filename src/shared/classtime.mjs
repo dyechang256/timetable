@@ -4,7 +4,7 @@ export async function time() {
   const PERIOD_TIMES = {
     1: "8:50",
     2: "10:30",
-    3: "12:30",
+    3: "12:40",
     4: "14:20",
     5: "16:00",
   };

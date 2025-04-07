@@ -17,7 +17,7 @@ export class ClassEditPage extends HTMLElement {
       width: 100%;
       display: flex;
       flex-direction: column;
-      overflow: scroll;
+      overflow: auto;
 
       & > .header {
         height: 32px;
@@ -52,6 +52,13 @@ export class ClassEditPage extends HTMLElement {
         grid-template-columns: 100px 1fr;
         grid-template-rows: repeat(1, 32px);
         gap: 8px;
+
+        & span {
+          text-align: center;
+          display: flex;
+          align-items:center;
+          justify-content: center;
+        }
 
         & input {
           height: 32px;

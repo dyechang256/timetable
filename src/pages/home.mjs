@@ -23,7 +23,7 @@ export class HomePage extends HTMLElement {
       & > .bottom {
         height: 40%;
         display: flex;
-        border-top: 2px solid green;
+        border-top: 5px solid green;
 
         & > .nextClock {
           width:30%;
@@ -53,11 +53,11 @@ export class HomePage extends HTMLElement {
       <div class="bottom">
         <div class="nextClock">
           <span>次は</span>
-          <span class="time">読み込み中</span>
+          <span class="time"></span>
         </div>
         <timetable-detail dayperiod="${this.dayperiod ?? ""}"></timetable-detail>
       </div>
-      <floating-link href="#class-list" emoji="📚"></floating-link>
+      <floating-link href="#class-list" emoji="src/assets/icons/book_icon.svg"></floating-link>
     </div>
   `;
 

@@ -1,27 +1,52 @@
-export function time() {
-  const TIME = [
-    ["8:50", "10:20"],
-    ["10:30", "12:00"],
-    ["14:20", "15:50"],
-    ["16:00", "17:30"],
-  ];
+import { DB, TABLE_STORE_NAME } from "./db.mjs";
 
-  //時間割の時刻を分に変換
-  const begins = TIME.map((item) => item[0])
-    .map((item) => ({ hours: Number(item.split(":")[0]), minutes: Number(item.split(":")[1]) }))
-    .map((item) => item.hours * 60 + item.minutes);
+export async function time() {
+  const PERIOD_TIMES = {
+    1: "8:50",
+    2: "10:30",
+    3: "12:30",
+    4: "14:20",
+    5: "16:00",
+  };
 
-  //TIME.map(v => v[0]).map(v => v.split(":").map(v => Number(v))).map(v => v[0]* 60 + v[1])
-
-  //現在時刻を分に変換
   const now = new Date();
-  const nowInMinutes = now.getHours() * 60 + now.getMinutes();
+  const nowInMinutes = now.getHours() * 60 + now.getMinutes(); // 現在時刻を分に変換
 
-  //現在時刻より後の最初の時間を探す
-  const nextTime = begins.find((time) => nowInMinutes < time);
-  if (nextTime) {
+  // 現在の曜日を取得（0: 日曜, 1: 月曜, ..., 6: 土曜）
+  const dayOfWeek = now.getDay() - 1; // 月曜を0、火曜を1とする
+  const days = ["月", "火", "水", "木", "金"];
+  const today = days[dayOfWeek];
+
+  // 平日のみ処理を実行
+  if (!today) {
+    return "明日";
+  }
+
+  // IndexedDB から時間割データを取得
+  const timetableEntries = await DB.getAll(TABLE_STORE_NAME);
+
+  // 現在の曜日に該当するデータをフィルタリング
+  const todayClasses = timetableEntries.filter((entry) => entry.dayperiod.startsWith(today));
+
+  // 現在時刻より後の科目をフィルタリング
+  const upcomingClasses = todayClasses
+    .map((entry) => {
+      const [day, period] = entry.dayperiod.split("-"); // 曜日と時限を分離
+      const startTime = PERIOD_TIMES[period]; // 時限に対応する開始時刻を取得
+      const [hours, minutes] = startTime.split(":").map(Number);
+      const startMinutes = hours * 60 + minutes;
+
+      return { ...entry, startMinutes }; // 開始時刻を分単位で追加
+    })
+    .filter((entry) => entry.startMinutes > nowInMinutes) // 現在時刻より後の科目をフィルタリング
+    .sort((a, b) => a.startMinutes - b.startMinutes); // 開始時刻でソート
+
+  // 次の科目を取得
+  if (upcomingClasses.length > 0) {
+    const nextClass = upcomingClasses[0];
+    const nextTime = nextClass.startMinutes;
     return `${Math.floor(nextTime / 60)}:${(nextTime % 60).toString().padStart(2, "0")}`;
   } else {
-    return "明日";
+    return "また明日";
   }
 }

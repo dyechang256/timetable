@@ -100,8 +100,6 @@ export class HomePage extends HTMLElement {
   }
 
   render() {
-    const previousTime = this.shadowRoot?.querySelector(".time")?.textContent || "読み込み中";
     this.shadowRoot.innerHTML = this.html();
-    this.shadowRoot.querySelector(".time").textContent = previousTime; // 前回の値を保持
   }
 }

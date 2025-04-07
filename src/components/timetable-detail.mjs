@@ -61,6 +61,14 @@ export class TimetableDetailComponent extends HTMLElement {
           background-color: transparent;
           font-size 24px;
         }
+
+        & > button.header-button > img {
+          height: 24px;
+          width: 24px;
+          object-fit: contain;
+        }
+
+
       }
 
       & select {
@@ -86,7 +94,11 @@ export class TimetableDetailComponent extends HTMLElement {
     const contentfull = () => /* html */ `
       <div class="header">
         <span>${this.day}曜日 ${this.period}時間目</span>
-        <button class="header-button">${this.isEditing ? "💾" : "✏️"}</button>
+        <button class="header-button">
+        <img src="src/assets/icons/${this.isEditing ? "save_icon.svg" : "pencil_icon.svg"}" alt="${
+      this.isEditing ? "保存" : "編集"
+    }" />
+          </button>
       </div>
       <div>${
         this.isEditing

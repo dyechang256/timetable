@@ -27,15 +27,24 @@ export class ClassEditPage extends HTMLElement {
         align-items: center;
         
         & > button {
-          height: 32px;
-          width: 32px;
+          height: 34px;
+          width: 34px;
           border: none;
           background-color: transparent;
+          display:flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 10px;
           font-size: 24px;
           text-align: center;
           text-shadow: 1px 1px 2px black;
-          margin-left: 10px;
+
+        & > img {
+          width: 34px;
+          height: 34px;
+          object-fit: contain;
         }
+      }
 
         & > span {
           width: 100%;
@@ -77,8 +86,12 @@ export class ClassEditPage extends HTMLElement {
       <button class="move-list">⬅️</button>
       
       <span>科目の編集</span>
-      <button class="delete">🗑️</button>
-      <button class="save">💾</button>
+      <button class="delete">
+      <img src="src/assets/icons/trash_icon.svg" alt="削除" />
+      </button>
+      <button class="save">
+      <img src="src/assets/icons/save_icon.svg" alt="保存" />
+      </button>
       </div>
     <div class="input-container">
       <span>科目名</span>

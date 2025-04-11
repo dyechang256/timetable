@@ -83,7 +83,8 @@ export class ClassEditPage extends HTMLElement {
   <div class="class-edit">
   <div class="class-edit">
     <div class="header">
-      <button class="move-list">⬅️</button>
+      <button class="move-list">
+      <img src="src/assets/icons/allow_icon.svg" alt="矢印" /></button>
       
       <span>科目の編集</span>
       <button class="delete">

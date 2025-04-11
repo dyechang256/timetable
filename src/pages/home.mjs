@@ -57,7 +57,7 @@ export class HomePage extends HTMLElement {
         </div>
         <timetable-detail dayperiod="${this.dayperiod ?? ""}"></timetable-detail>
       </div>
-      <floating-link href="#class-list" emoji="src/assets/icons/book_icon.svg"></floating-link>
+      <floating-link href="#class-list" emoji="src/assets/icons/gear_icon.svg"></floating-link>
     </div>
   `;
 

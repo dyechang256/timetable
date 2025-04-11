@@ -60,7 +60,8 @@ export class ClassListPage extends HTMLElement {
     <style>${this.css()}</style>
     <div class="class-list">
       <div class="header">
-        <button class="move-home">⬅️</button>
+        <button class="move-home">
+        <img src="src/assets/icons/allow_icon.svg" alt="矢印" /></button>
         <span>科目一覧</span>
         <button class="add">➕</button>
       </div>

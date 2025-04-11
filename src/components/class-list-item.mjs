@@ -25,6 +25,12 @@ export class ClassListItemComponent extends HTMLElement {
       & span.arrow {
         margin-left: auto;
       }
+
+      & span.arrow > img {
+        height: 24px;
+        width: 24px;
+        object-fit: contain;
+      }
     }
   `;
 
@@ -32,7 +38,7 @@ export class ClassListItemComponent extends HTMLElement {
     <style>${this.css()}</style>
     <div class="class-list-item">
       <span>${this.classData.name}</span>
-      <span class="arrow">➡️</span>
+      <span class="arrow"><img src="src/assets/icons/allow_right_icon.svg" alt="矢印" /></span>
     </div>
   `;
 
